@@ -57,6 +57,8 @@ const CRUD = () => {
               type="text"
               className="form-control"
               placeholder="Enter Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
             ></input>
           </Col>
           <Col>
@@ -64,10 +66,17 @@ const CRUD = () => {
               type="text"
               className="form-control"
               placeholder="Enter Age"
+              value={age}
+              onChange={(e) => setAge(e.target.value)}
             ></input>
           </Col>
           <Col>
-            <input type="checkbox"></input>
+            <input
+              type="checkbox"
+              checked={isActive === 1 ? true : false}
+              onChange={(e) => setIsActive(e)}
+              value={isActive}
+            ></input>
             <label>IsActive</label>
           </Col>
           <Col>
@@ -142,6 +151,8 @@ const CRUD = () => {
                 type="text"
                 className="form-control"
                 placeholder="Enter Name"
+                value={editName}
+                onChange={(e) => setEditName(e.target.value)}
               ></input>
             </Col>
             <Col>
@@ -149,10 +160,17 @@ const CRUD = () => {
                 type="text"
                 className="form-control"
                 placeholder="Enter Age"
+                value={editAge}
+                onChange={(e) => setEditAge(e.target.value)}
               ></input>
             </Col>
             <Col>
-              <input type="checkbox"></input>
+              <input
+                type="checkbox"
+                checked={editIsActive === 1 ? true : false}
+                onChange={(e) => setEditIsActive(e)}
+                value={editIsActive}
+              ></input>
               <label>IsActive</label>
             </Col>
           </Row>
