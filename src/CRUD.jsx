@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react"
 import { Button, Modal } from "react-bootstrap"
+import Container from "react-bootstrap/Container"
+import Row from "react-bootstrap/Row"
+import Col from "react-bootstrap/Col"
 
 const CRUD = () => {
   const empData = [
@@ -11,6 +14,17 @@ const CRUD = () => {
   const [show, setShow] = useState(false)
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
+
+  //For New Record
+  const [name, setName] = useState("")
+  const [age, setAge] = useState("")
+  const [isActive, setIsActive] = useState(0)
+
+  //For Edit Record
+  const [editId, setEditId] = useState("")
+  const [editName, setEditName] = useState("")
+  const [editAge, setEditAge] = useState("")
+  const [editIsActive, setEditIsActive] = useState(0)
 
   const [data, setData] = useState([])
   useEffect(() => {
@@ -36,6 +50,32 @@ const CRUD = () => {
 
   return (
     <>
+      <Container className="mb-3">
+        <Row>
+          <Col>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Enter Name"
+            ></input>
+          </Col>
+          <Col>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Enter Age"
+            ></input>
+          </Col>
+          <Col>
+            <input type="checkbox"></input>
+            <label>IsActive</label>
+          </Col>
+          <Col>
+            <button className="btn btn-primary">Submit</button>
+          </Col>
+        </Row>
+      </Container>
+
       <div className="overflow-x-auto rounded-lg shadow border border-gray-200 w-full mx-auto">
         <table className=" w-full text-left text-sm text-gray-700">
           <thead className="bg-gray-100 text-gray-900 font-semibold">
@@ -95,7 +135,28 @@ const CRUD = () => {
         <Modal.Header closeButton>
           <Modal.Title>Modify / Update Employee </Modal.Title>
         </Modal.Header>
-        <Modal.Body>Woohoo, you are reading this text in a modal!</Modal.Body>
+        <Modal.Body>
+          <Row>
+            <Col>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Enter Name"
+              ></input>
+            </Col>
+            <Col>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Enter Age"
+              ></input>
+            </Col>
+            <Col>
+              <input type="checkbox"></input>
+              <label>IsActive</label>
+            </Col>
+          </Row>
+        </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close
