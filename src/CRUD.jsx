@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react"
+import { Button, Modal } from "react-bootstrap"
 
 const CRUD = () => {
   const empData = [
@@ -7,10 +8,31 @@ const CRUD = () => {
     { id: 3, name: "Diogo", age: 25, isActive: 0 },
   ]
 
+  const [show, setShow] = useState(false)
+  const handleClose = () => setShow(false)
+  const handleShow = () => setShow(true)
+
   const [data, setData] = useState([])
   useEffect(() => {
     setData(empData)
   }, [])
+
+  const handleEdit = (id) => {
+    //alert(id)
+    handleShow()
+  }
+
+  const handleDelete = (id) => {
+    if (
+      window.confirm("Are you sure you want to delete this record?") == true
+    ) {
+      alert(id)
+    }
+  }
+
+  const handleUpdate = () => {
+    alert("Update logic goes here")
+  }
 
   return (
     <>
@@ -19,7 +41,6 @@ const CRUD = () => {
           <thead className="bg-gray-100 text-gray-900 font-semibold">
             <tr>
               <th className="px-6 py-3">#</th>
-              <th className="px-6 py-3">ID</th>
               <th className="px-6 py-3">Name</th>
               <th className="px-6 py-3">Age</th>
               <th className="px-6 py-3">Active</th>
@@ -34,7 +55,6 @@ const CRUD = () => {
                   className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}
                 >
                   <td className="px-6 py-3">{index + 1}</td>
-                  <td className="px-6 py-3">{item.id}</td>
                   <td className="px-6 py-3">{item.name}</td>
                   <td className="px-6 py-3">{item.age}</td>
                   <td className="px-6 py-3">
@@ -45,10 +65,16 @@ const CRUD = () => {
                     )}
                   </td>
                   <td className="px-6 py-3 space-x-2 justify-center align-middle">
-                    <button className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+                    <button
+                      onClick={() => handleEdit(item.id)}
+                      className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+                    >
                       Edit
                     </button>
-                    <button className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
+                    <button
+                      onClick={() => handleDelete(item.id)}
+                      className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                    >
                       Delete
                     </button>
                   </td>
@@ -64,6 +90,21 @@ const CRUD = () => {
           </tbody>
         </table>
       </div>
+
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Modify / Update Employee </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Woohoo, you are reading this text in a modal!</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleUpdate}>
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   )
 }
