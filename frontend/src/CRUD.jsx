@@ -59,6 +59,30 @@ const CRUD = () => {
     alert("Update logic goes here")
   }
 
+  const handleSave = () => {
+    const url = "https://localhost:7227/api/Employee"
+    const data = {
+      name: name,
+      age: age,
+      isActive: isActive,
+    }
+    axios.post(url, data).then((response) => {
+      console.log("Data saved successfully:", response.data)
+      ~getData()
+      clear()
+    })
+  }
+
+  const clear = () => {
+    setName("")
+    setAge("")
+    setIsActive(0)
+    setEditName("")
+    setEditAge("")
+    setEditIsActive(0)
+    setEditId("")
+  }
+
   return (
     <>
       <Container className="mb-3">
@@ -91,7 +115,9 @@ const CRUD = () => {
             <label>IsActive</label>
           </Col>
           <Col>
-            <button className="btn btn-primary">Submit</button>
+            <button className="btn btn-primary" onClick={() => handleSave()}>
+              Submit
+            </button>
           </Col>
         </Row>
       </Container>
