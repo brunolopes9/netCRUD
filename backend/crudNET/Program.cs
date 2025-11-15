@@ -12,7 +12,7 @@ namespace crudNET
 
             // Add services to the container.
 
-            builder.Services.AddDbContext<EmployeeContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("CRUDCS"));
+            builder.Services.AddDbContext<EmployeeContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("CRUDCS")));
 
 
 
