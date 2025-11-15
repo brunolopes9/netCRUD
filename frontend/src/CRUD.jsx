@@ -3,6 +3,7 @@ import { Button, Modal } from "react-bootstrap"
 import Container from "react-bootstrap/Container"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
+import axios from "axios"
 
 const CRUD = () => {
   const empData = [
@@ -27,8 +28,18 @@ const CRUD = () => {
   const [editIsActive, setEditIsActive] = useState(0)
 
   const [data, setData] = useState([])
+
   useEffect(() => {
-    setData(empData)
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("https://localhost:7227/api/Employee")
+        setData(response.data)
+      } catch (error) {
+        console.error("There was an error fetching the data!", error)
+      }
+    }
+
+    fetchData()
   }, [])
 
   const handleEdit = (id) => {
