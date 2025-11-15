@@ -19,7 +19,7 @@ namespace crudNET.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Employee>>> GetEmployees()
         {
-        if(_employeeContext.Employees==null)
+            if (_employeeContext.Employees == null)
             {
                 return NotFound();
             }
@@ -27,7 +27,7 @@ namespace crudNET.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Employee>> GetEmployees(int id)
+        public async Task<ActionResult<Employee>> GetEmployee(int id)
         {
             if (_employeeContext.Employees == null)
             {
@@ -47,8 +47,46 @@ namespace crudNET.Controllers
             _employeeContext.Employees.Add(employee);
             await _employeeContext.SaveChangesAsync();
 
-            return CreatedAtFunction(nameof(GetEmployee), new { id = employee.ID }, employee);
+            return CreatedAtAction(nameof(GetEmployee), new { id = employee.Id }, employee);
         }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Employee>> PutEmployee (int id, Employee employee)
+        {
+        if ( id != employee.Id)
+            {
+                return BadRequest();
+            }
+            _employeeContext.Entry(employee).State = EntityState.Modified;
+            try
+            {
+                await _employeeContext.SaveChangesAsync();
+            } 
+            catch(DbUpdateConcurrencyException)
+            {
+                throw;
+            }
+            return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteEmployee(int id)
+        {
+            if(_employeeContext.Employees == null)
+            {
+                return NotFound();
+            }
+            var employee = await _employeeContext.Employees.FindAsync(id);
+            if (employee == null)
+            {
+                return NotFound();
+            }
+            _employeeContext.Employees.Remove(employee);
+            await _employeeContext.SaveChangesAsync();
+
+            return Ok();
+        }
+
 
 
     }
