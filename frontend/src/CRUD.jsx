@@ -47,31 +47,59 @@ const CRUD = () => {
   const handleEdit = (id) => {
     //alert(id)
     handleShow()
+    axios
+      .get(`https://localhost:7227/api/Employee/${id}`)
+      .then((response) => {
+        setEditName(response.data.name)
+        setEditAge(response.data.age)
+        setEditIsActive(response.data.isActive)
+        setEditId(response.data.id)
+      })
+      .catch((error) => {
+        console.error("There was an error fetching the data!", error)
+        toast.error("Error fetching employee data.")
+      })
   }
 
   const handleDelete = (id) => {
-    if (
-      window.confirm("Are you sure you want to delete this record?") == true
-    ) {
-axios.delete(`https://localhost:7227/api/Employee/${id}`)   
+    if (window.confirm("Are you sure you want to delete this record?")) {
+      axios
+        .delete(`https://localhost:7227/api/Employee/${id}`)
         .then((response) => {
-            if(response.status === 200)
-              {
-          console.log("Data deleted successfully:", response.data)
-                    toast.success("Employee deleted successfully!")
-
-          fetchData()
-
-        }
+          if (response.status === 200) {
+            console.log("Data deleted successfully:", response.data)
+            toast.success("Employee deleted successfully!")
+            fetchData()
+          }
         })
         .catch((error) => {
           console.error("There was an error deleting the data!", error)
-                    toast.error("Error deleting employee.")
+          toast.error("Error deleting employee.")
         })
+    }
   }
 
   const handleUpdate = () => {
-    alert("Update logic goes here")
+    const url = `https://localhost:7227/api/Employee/${editId}`
+    const data = {
+      id: editId,
+      name: editName,
+      age: editAge,
+      isActive: editIsActive,
+    }
+    axios
+      .put(url, data)
+      .then((response) => {
+        handleClose()
+        console.log("Data updated successfully:", response.data)
+        fetchData()
+        clear()
+        toast.success("Employee updated successfully!")
+      })
+      .catch((error) => {
+        console.error("There was an error updating the data!", error)
+        toast.error("Error updating employee.")
+      })
   }
 
   const handleSave = () => {
@@ -81,16 +109,18 @@ axios.delete(`https://localhost:7227/api/Employee/${id}`)
       age: age,
       isActive: isActive,
     }
-    axios.post(url, data).then((response) => {
-      console.log("Data saved successfully:", response.data)
-      fetchData()
-      clear()
-      toast.success("Employee added successfully!")
-    })
-    .catch((error) => {
-      console.error("There was an error saving the data!", error)
-      toast.error("Error adding employee.")
-    }
+    axios
+      .post(url, data)
+      .then((response) => {
+        console.log("Data saved successfully:", response.data)
+        fetchData()
+        clear()
+        toast.success("Employee added successfully!")
+      })
+      .catch((error) => {
+        console.error("There was an error saving the data!", error)
+        toast.error("Error adding employee.")
+      })
   }
 
   const clear = () => {
@@ -136,7 +166,7 @@ axios.delete(`https://localhost:7227/api/Employee/${id}`)
           </Col>
           <Col>
             <button className="btn btn-primary" onClick={() => handleSave()}>
-              Submit
+              Add New Employee
             </button>
           </Col>
         </Row>
