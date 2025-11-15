@@ -4,6 +4,8 @@ import Container from "react-bootstrap/Container"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 import axios from "axios"
+import "react-toastify/dist/ReactToastify.css"
+import { ToastContainer, toast } from "react-toastify"
 
 const CRUD = () => {
   const empData = [
@@ -29,16 +31,16 @@ const CRUD = () => {
 
   const [data, setData] = useState([])
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("https://localhost:7227/api/Employee")
-        setData(response.data)
-      } catch (error) {
-        console.error("There was an error fetching the data!", error)
-      }
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("https://localhost:7227/api/Employee")
+      setData(response.data)
+    } catch (error) {
+      console.error("There was an error fetching the data!", error)
     }
+  }
 
+  useEffect(() => {
     fetchData()
   }, [])
 
@@ -51,8 +53,21 @@ const CRUD = () => {
     if (
       window.confirm("Are you sure you want to delete this record?") == true
     ) {
-      alert(id)
-    }
+axios.delete(`https://localhost:7227/api/Employee/${id}`)   
+        .then((response) => {
+            if(response.status === 200)
+              {
+          console.log("Data deleted successfully:", response.data)
+                    toast.success("Employee deleted successfully!")
+
+          fetchData()
+
+        }
+        })
+        .catch((error) => {
+          console.error("There was an error deleting the data!", error)
+                    toast.error("Error deleting employee.")
+        })
   }
 
   const handleUpdate = () => {
@@ -68,9 +83,14 @@ const CRUD = () => {
     }
     axios.post(url, data).then((response) => {
       console.log("Data saved successfully:", response.data)
-      ~getData()
+      fetchData()
       clear()
+      toast.success("Employee added successfully!")
     })
+    .catch((error) => {
+      console.error("There was an error saving the data!", error)
+      toast.error("Error adding employee.")
+    }
   }
 
   const clear = () => {
@@ -85,6 +105,7 @@ const CRUD = () => {
 
   return (
     <>
+      <ToastContainer />
       <Container className="mb-3">
         <Row>
           <Col>
@@ -109,8 +130,7 @@ const CRUD = () => {
             <input
               type="checkbox"
               checked={isActive === 1 ? true : false}
-              onChange={(e) => setIsActive(e)}
-              value={isActive}
+              onChange={(e) => setIsActive(e.target.checked ? 1 : 0)}
             ></input>
             <label>IsActive</label>
           </Col>
@@ -205,8 +225,7 @@ const CRUD = () => {
               <input
                 type="checkbox"
                 checked={editIsActive === 1 ? true : false}
-                onChange={(e) => setEditIsActive(e)}
-                value={editIsActive}
+                onChange={(e) => setEditIsActive(e.target.checked ? 1 : 0)}
               ></input>
               <label>IsActive</label>
             </Col>
