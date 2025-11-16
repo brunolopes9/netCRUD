@@ -6,9 +6,9 @@ This is a simple CRUD (Create, Read, Update, Delete) application built with:
 - **Database:** SQL Server  
 - **Front-end:** React with Axios and Bootstrap
 
-<img src="/public/Screenshot1.png">
-<img src="/public/Screenshot2.png">
-<img src="/public/Screenshot3.png">
+<img src="frontend/public/Screenshot1.png">
+<img src="frontend/public/Screenshot2.png">
+<img src="frontend/public/Screenshot3.png">
 
 
 ## Features
